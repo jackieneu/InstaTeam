@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('Roles')"></head>
+<body>
+
+<div th:replace="layout :: new"></div>
+<div th:replace="layout :: nav"></div>
+<div th:replace="layout :: flash"></div>
+
+<section>
+    <div class="container wrapper">
+        <form th:action="@{|/roles/update|}" method="post" th:object="${role}">
+            <input type="hidden" th:field="*{id}"/>
+            <h2>Edit Role</h2>
+            <div class="actions add-new-role" th:classappend="${#fields.hasErrors('name')}? 'error' : ''">
+                <input th:style="${#fields.hasErrors('name')}? 'margin-bottom:0' : ''" type="text" th:field="*{name}" placeholder="New Role..."/>
+                <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+            <div class="actions">
+                <button type="submit" class="button">Update</button>
+                <a th:href="@{/roles}" class="button button-secondary">Cancel</a>
+            </div>
+        </form>
+        <div class="actions-delete">
+            <form id="delete-form" th:action="@{|/roles/${role.id}/delete|}" method="post" th:object="${role}">
+                <input type="hidden" th:field="*{id}"/>
+                <button type="submit" class="button">Delete</button>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:fragment="head(page_title)" lang="en">
+    <meta charset="UTF-8"/>
+    <meta description="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata:400,700"  type='text/css' />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" th:href="@{/normalize.css}"/>
+    <link rel="stylesheet" th:href="@{/site.css}"/>
+
+    <title th:text="'InstaTeam | ' + ${page_title}">InstaTeam</title>
+</head>
+
+<body>
+
+<div th:fragment="new">
+    <header>
+        <div class="container">
+            <div class="site-header">
+                <a class="logo" th:href="@{/projects}">InstaTeam</a>
+                <a class="new-project button icon-left" th:href="@{/projects/add}"><i class="material-icons">add</i> New Project</a>
+            </div>
+        </div>
+    </header>
+</div>
+
+<div th:fragment="nav">
+    <nav>
+        <ul>
+            <li th:classappend="${#httpServletRequest.servletPath.equals('/projects') ? 'selected' : ''}"><a th:href="@{/projects}">Projects</a></li>
+            <li th:classappend="${#httpServletRequest.servletPath.equals('/collaborators') ? 'selected' : ''}"><a th:href="@{/collaborators}">Collaborators</a></li>
+            <li th:classappend="${#httpServletRequest.servletPath.equals('/roles') ? 'selected' : ''}"><a th:href="@{/roles}">Roles</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div th:fragment="flash" th:if="${flash != null}" class="container">
+    <i class="right material-icons" data-close="">close</i>
+    <div th:classappend="${#strings.toLowerCase(flash.status)}" th:text="${flash.message}" class="flash"></div>
+</div>
+
+</body>
+</html>

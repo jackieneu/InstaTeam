@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('Project Collaborators')"></head>
+<body>
+    <div th:replace="layout :: new"></div>
+    <div th:replace="layout :: nav"></div>
+    <div th:replace="layout :: flash"></div>
+
+        <section>
+            <div class="container wrapper">
+                <form th:action="@{'/project/' + ${project.id} + '/addCollaborator'}" method="post" th:object="${project}">
+                    <label th:text="'Edit Collaborators: ' + ${project.name}">Edit Collaborators: Project Name</label>
+                    <ul class="checkbox-list">
+                        <li th:each="role : *{rolesNeeded}">
+                            <span class="primary" th:text="${role.name}" th:value="${role.id}">Role Name</span>
+                            <div class="custom-select">
+                                <span class="dropdown-arrow"></span>
+                                <select th:field="*{collaborators}">
+                                    <option th:each="collaborator : ${role.collaborators}" th:text="${collaborator.name}" th:value="${collaborator.id}">Collaborator Role</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="actions">
+                        <input type="submit" value="Save" class="button"/>
+                        <a th:href="@{/projects}" class="button button-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </body>
+</html>

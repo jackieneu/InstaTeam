@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout :: head('Collaboartors')"></head>
+    <body>
+        <div th:replace="layout :: new"></div>
+        <div th:replace="layout :: nav"></div>
+        <div th:replace="layout :: flash"></div>
+
+        <section>
+            <div class="container wrapper">
+                <form method="post" th:action="@{/collaborators}" th:object="${collaborator}">
+                    <h2>Manage Collaborators</h2>
+                    <ul class="checkbox-list">
+                        <li th:each="collaborator : ${collaborators}">
+                            <a th:href="@{|/collaborators/${collaborator.id}/edit|}" th:text="${collaborator.name}" th:value="${collaborator.id}">Collaborator Name</a>
+                            <div class="custom-select">
+                                <span class="dropdown-arrow"></span>
+                                <select>
+                                    <option th:if="${collaborator.role} != null" th:text="${collaborator.role.name}">Collaborator Role</option>
+                                    <option th:unless="${collaborator.role} != null" >Unassigned</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="actions add-new-collaborator" th:classappend="${#fields.hasErrors('name')}? 'error' : ''">
+                        <input th:style="${#fields.hasErrors('name')}? 'margin-bottom:0' : ''" th:field="*{name}" type="text" placeholder="Name..."/>
+                        <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                        <input type="hidden" th:field="*{id}"/>
+                        <div class="custom-select">
+                            <span class="dropdown-arrow"></span>
+                            <select th:field="*{role}">
+                                <option th:each="role: ${roles}" th:text="${role.name}" th:value="${role.id}">Role...
+                                    <input type="hidden" th:field="*{role.id}" th:value="${role.id}"/>
+                                </option>
+                            </select>
+                        </div>
+                        <button type="submit" class="button">Add</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </body>
+</html>
